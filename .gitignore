@@ -1,0 +1,9 @@
+.deps
+*.o
+sudosh
+sudosh-replay
+config.*
+Makefile
+src/sudosh.conf
+sudosh*
+stamp-h1

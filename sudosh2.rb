@@ -8,7 +8,10 @@ class Sudosh2 < Formula
   sha1 "8dc6efacf0b5a825a5ed13d1c8a90f0c0bae6562"
 
   def install
-    system "./configure", "--prefix=#{prefix}"
+    system "./configure", "--disable-debug",
+                          "--disable-dependency-tracking",
+                          "--prefix=#{prefix}",
+                          "--mandir=#{man}"
     system "make"
     system "make install"
   end

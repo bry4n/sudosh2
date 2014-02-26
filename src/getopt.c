@@ -45,7 +45,6 @@ the executable file might be covered by the GNU General Public License. */
 #endif
 #endif
 
-#include <string.h>
 #include <stdio.h>
 
 /* Comment out all this code if we are using the GNU C Library, and are not

@@ -7,17 +7,15 @@ extern void mklogdir(char * logdir);
 void parse(option * c, const char *file)
 {
     FILE *f;
-    unsigned int line_number, i;
     char line[BUFSIZ];
 	int leftside;
     char key[BUFSIZ], value[BUFSIZ];
-    char *arg, *cmt, *opt;
     char *p;
     struct stat defshell_stat;
     struct stat logdir_stat;
     char *shell;
     int found = FALSE;
-    unsigned int x=0, y=0;
+    unsigned int x=0;
 
 	bzero(c, sizeof (struct s_option));
 	// Set up some defaults

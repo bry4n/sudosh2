@@ -109,13 +109,11 @@ main (int argc, char *argv[], char *environ[])
 {
   int n = 1;
   int valid = -1;
-  int found = FALSE;
   char iobuf[BUFSIZ];
   char sysconfdir[BUFSIZ];
   char c_str[BUFSIZ];
   char c_command[BUFSIZ];
   char *p = NULL;
-  char *c_args = NULL;
   char *rand = rand2str (16);
   time_t now = time ((time_t *) NULL);
   struct stat s;
@@ -172,7 +170,6 @@ main (int argc, char *argv[], char *environ[])
 	  strncpy (user.from, user.pw->pw_name, BUFSIZ - 1);
 	  strncpy (c_str, optarg, BUFSIZ - 1);
 	  strncpy (c_command, optarg, BUFSIZ -1);
-	  c_args = (char *) strchr (optarg, ' ');
 	p=strchr(c_str, ' ');
 	if (p)
 		{
@@ -180,7 +177,7 @@ main (int argc, char *argv[], char *environ[])
 //		fprintf(stderr,"args=%s\n",c_args);
 		}
 	
-	  if (c_str)
+	  if (c_str[0]!=0)
 	    {
 // Test for methods of escape
 		if (strchr(c_command,';')!=NULL ||
@@ -430,7 +427,11 @@ main (int argc, char *argv[], char *environ[])
       close (pspair.sfd);
     }
 
-  setuid (getuid ());
+  if (setuid (getuid ())!=0)
+	{
+	perror("setuid failed");
+	bye (EXIT_FAILURE);
+	}
 
   memset (&sawinch, 0, sizeof sawinch);
   sawinch.sa_handler = newwinsize;
@@ -483,7 +484,6 @@ main (int argc, char *argv[], char *environ[])
 
       if (FD_ISSET (0, &readfds))
 	{
-	  int written = 0;
 	  if ((n = read (0, iobuf, BUFSIZ)) > 0)
 	    {
 	      WRITE (pspair.mfd, iobuf, n);
@@ -577,7 +577,6 @@ findms (struct pst *p)
 static void
 prepchild (struct pst *pst)
 {
-int newfd;
   int i;
   char *b = NULL;
   char newargv[BUFSIZ];
@@ -597,9 +596,8 @@ int newfd;
 
   if ((pst->sfd = open (pst->slave, O_RDWR)) < 0)
     exit (EXIT_FAILURE);
-  newfd=dup (0);
-  newfd=dup (0);
-
+  i=dup (0);
+  i=dup (0);
   for (i = 3; i < 100; ++i)
     close (i);
 
@@ -608,7 +606,11 @@ int newfd;
 #endif
   (void) ioctl (0, TIOCSWINSZ, &winorig);
 
-  setuid (getuid ());
+  if (setuid (getuid ())!=0)
+	{
+	perror("setuid failed");
+	bye(EXIT_FAILURE);
+	}
 
   strncpy (newargv, user.shell.ptr, BUFSIZ - 1);
 
@@ -621,10 +623,10 @@ int newfd;
   snprintf (user.logname.str, BUFSIZ - 1, "LOGNAME=%s", user.to);
   if (!strcmp (user.to, "root"))
     snprintf (user.path.str, BUFSIZ - 1,
-	      "PATH=/sbin:/bin:/usr/sbin:/usr/bin:");
+	      "PATH=/sbin:/bin:/usr/sbin:/usr/bin");
   else
     snprintf (user.path.str, BUFSIZ - 1,
-	      "PATH=/usr/bin:/bin:/usr/local/bin:");
+	      "PATH=/usr/bin:/bin:/usr/local/bin");
 
 #ifdef HAVE_SETPENV
   /* I love AIX - setpenv takes care of everything, including chdir() and the env */

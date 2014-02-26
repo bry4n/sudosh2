@@ -8,6 +8,6 @@ sysconfdir = @sysconfdir@
 
 install-sudosh.conf:
 	test -z "$(sysconfdir)" || $(mkdir_p) "$(DESTDIR)$(sysconfdir)"
-	test -f $(sysconfdir)/sudosh.conf || $(INSTALL) -o 0 -g 0 -m 0444 '$(srcdir)/sudosh.conf' '$(sysconfdir)/sudosh.conf'
+	test -f $(sysconfdir)/sudosh.conf || $(INSTALL) -o 0 -g 0 -m 0444 '$(srcdir)/sudosh.conf' '$(DESTDIR)$(sysconfdir)/sudosh.conf'
 
 install: install-am install-sudosh.conf

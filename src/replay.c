@@ -541,7 +541,7 @@ void show_sessions(void)
 
 session *sort_list(session * list)
 {
-    session *p, *q, *e, *tail, *oldhead;
+    session *p, *q, *e, *tail;
     int insize, nmerges, psize, qsize, i;
 
     if (!list)
@@ -551,7 +551,6 @@ session *sort_list(session * list)
 
     while (1) {
 	p = list;
-	oldhead = list;
 	list = (session *) 0;
 	tail = (session *) 0;
 	nmerges = 0;

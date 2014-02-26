@@ -7,3 +7,5 @@ Makefile
 src/sudosh.conf
 sudosh*
 stamp-h1
+
+autom4te.cache/

@@ -7,6 +7,7 @@ struct s_option {
     int facility;
     int clearenvironment;
     char argallow[BUFSIZ];
+    int permissive;
 };
 
 typedef struct s_option option;

@@ -199,7 +199,7 @@ main (int argc, char *argv[], char *environ[])
 		sprintf(argtest,"$%.100s$",c_str);
 //		fprintf(stderr,"Testing for %s\n",argtest);
 		
-		if (strstr(sudosh_option.argallow,argtest)!=NULL)
+		if (sudosh_option.permissive || strstr(sudosh_option.argallow,argtest)!=NULL)
 		{
 		  FILE *f;
 		  snprintf (script.name, (size_t) BUFSIZ - 1,

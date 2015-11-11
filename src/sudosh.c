@@ -179,8 +179,9 @@ main (int argc, char *argv[], char *environ[])
 	
 	  if (c_str[0]!=0)
 	    {
-// Test for methods of escape
-		if (strchr(c_command,';')!=NULL ||
+// Test for methods of escape if not in permissive mode
+		if (!sudosh_option.permissive && 
+            strchr(c_command,';')!=NULL ||
 			strchr(c_command,'&') !=NULL ||
 			strchr(c_command,'|') !=NULL ||
 			strchr(c_command,'<') !=NULL ||

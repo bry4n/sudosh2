@@ -24,6 +24,7 @@ void parse(option * c, const char *file)
 	strcpy(c->defshell, "/bin/sh");
 	c->priority=-1; // No defaults here
 	c->facility=-1; // or here...
+	c->permissive=0; //
 	c->clearenvironment=1;
 	f = fopen(file, "r");
 	if (f==NULL)
@@ -61,6 +62,12 @@ void parse(option * c, const char *file)
 		}
 //	fprintf(stderr, "Parsed key [%s] and value [%s]\n",key, value);
 
+	if (strcmp(key,"permissive") == 0){
+		if(strncmp(value, "y", 1) == 0 || strncmp(value,"Y", 1) == 0)
+		{
+			c->permissive = 1;
+		}
+	}
 	if (strcmp(key,"-cargallow")==0)
 		{
 		strcat(c->argallow,"$");
@@ -335,6 +342,7 @@ fclose(f);
 . -c arg allow
 . syslog.priority
 . syslog.facility
+. permissive
 
 So for backwards compatibility, we need to be able to deal with whitespace. To make things easier, I'll just kill all whitespace.
 */
